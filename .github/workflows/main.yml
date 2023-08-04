@@ -1,0 +1,33 @@
+name: Deploy to Liara
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14  # Use the desired Node.js version
+        
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build Next.js apps
+        run: npm run build
+        
+      - name: Login to Liara
+        run: liara login --email h.alijani1379@yahoo.com --pass your_token
+        # Replace your_email and your_token with your Liara credentials
+        
+      - name: Deploy to Liara
+        run: liara deploy --app your_app_name
+        # Replace your_app_name with the name of your Liara app
