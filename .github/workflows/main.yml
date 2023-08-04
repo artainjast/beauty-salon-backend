@@ -17,4 +17,4 @@ jobs:
           LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
         run: |
           npm i -g @liara/cli@4
-          liara deploy --app="beauty-salon-backend" --api-token="$LIARA_TOKEN" --detach
+          liara deploy --app="beauty-salon-backend" --port=3000 --api-token="$LIARA_TOKEN" --detach
