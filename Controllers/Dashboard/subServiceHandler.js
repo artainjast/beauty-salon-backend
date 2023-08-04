@@ -8,6 +8,7 @@ const getSubService = async (req, res) => {
     // Build the query conditions
     const whereCondition = {
       DELETED_AT: 0,
+      is_active: 1
     };
     if (text && text.length > 0) {
       whereCondition.NAME = {

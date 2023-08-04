@@ -99,20 +99,22 @@ const editCustomer = async (req, res, next) => {
   }
 };
 
+
 const getCustomers = async (req, res, next) => {
   try {
     let users;
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
-    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 20;
+
+    const searchText = req.query.text ? req.query.text.trim() : '';
 
     const whereClause = {
       DELETED_AT: {
-        [Op.eq]: 0 // Filter records where DELETED_AT is equal to 0
+        [Op.eq]: 0
       }
     };
 
-    if (req.query.text && req.query.text.length > 0) {
-      const searchText = req.query.text;
+    if (searchText.length > 0) {
       whereClause[Op.or] = [
         {
           PHONE_NUMBER: {
@@ -120,14 +122,14 @@ const getCustomers = async (req, res, next) => {
           }
         },
         {
-          FIRST_NAME: {
-            [Op.substring]: searchText
-          }
-        },
-        {
-          LAST_NAME: {
-            [Op.substring]: searchText
-          }
+          [Op.and]: [
+            {
+              [Op.or]: [
+                { FIRST_NAME: { [Op.substring]: searchText } },
+                { LAST_NAME: { [Op.substring]: searchText } }
+              ]
+            }
+          ]
         }
       ];
     }
@@ -148,6 +150,7 @@ const getCustomers = async (req, res, next) => {
     next(error); // Pass the error to the error-handling middleware
   }
 };
+
 
 const deleteCustomer = async (req, res, next) => {
   try {
