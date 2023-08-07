@@ -7,7 +7,7 @@ const isNumber = (value) => {
 const isString = (value) => {
   return typeof value === 'string';
 }
-
+// testcomment
 const toEn = (persianNumber) => {
     const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
     let englishNumber = "";
