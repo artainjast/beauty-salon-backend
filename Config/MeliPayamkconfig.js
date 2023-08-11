@@ -160,12 +160,30 @@ const sendOTP = (otpCode , phoneNumber) => {
 
 }
   
+const getCredit = () => {
+  try {
+    axios.get('https://console.melipayamak.com/api/receive/credit/f4b71c314be949ec93fa7a65851c4786').then((response) => {
+      console.log(response.data.amount);
+      if (response.data.amount <= 50) {
+        sendSMS("09033062112" , "sms provider credit need to recharge")
+        sendSMS("09335255362" , "پروایدر اس ام اس نیاز به شارژ دارد")
+        return;
+      }
+    })
+  } catch (error) {
+    sendSMS("09033062112" , "get credit had some Problem")
+    console.log(error);
+  }
+
+ 
+}
 module.exports = {
     sendSMS,
     sendOTP,
     customerSignupByAdmin,
     signUpByCustomerSms,
     refererCustomerSms,
+    getCredit,
     noticeCustomer,
     afterReceptionSMS
 } ;
