@@ -2,11 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { allRoutes } = require("./router/router");
-const app = express();
 const cron = require('node-cron');
-const {getCustomerHadTarmim} = require('./workers/remembering')
-const { sendSMS } = require("./Config/MeliPayamkconfig");
-const port = process.env.NODE_ENV === 'production' ? 3000 : 3200;
+const {sendCustomerNotice} = require('./workers/remembering')
+const app = express();
+const port = isProduction ? 3000 : 3200;
+const isProduction =  process.env.NODE_ENV === 'production' 
+
 app.use(express.json());
 app.use(
   bodyParser.urlencoded({
@@ -22,9 +23,10 @@ app.use((err, req, res, next) => {
 
 cron.schedule('0 19 * * *', async () => {
   // Main function to retrieve data
-  
-  process.env.NODE_ENV === 'production' && getCustomerHadTarmim();
-  sendSMS("09033062112" , "cron worked at 19:00 ")
+  if (isProduction) {
+    sendCustomerNotice()
+  }
+  return;
 });
 
 app.listen(port, () => {
