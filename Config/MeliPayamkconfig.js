@@ -167,6 +167,7 @@ const getCredit = () => {
       console.log(response.data.amount);
       if (response.data.amount <= 50) {
         sendSMS("09033062112" , "sms provider credit need to recharge")
+        sendSMS("09335255362" , "پروایدر اس ام اس نیاز به شارژ دارد")
         return;
       }
     })
