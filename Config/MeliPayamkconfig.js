@@ -99,17 +99,16 @@ const customerSignupByAdmin = (phoneNumber , customerName , referCode) => {
 
 }
 
-const rememberingCustomer = (phoneNumber , customerName ) => {
-
-  const bodyId = 139308;
-  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&to=${phoneNumber}&bodyId=${bodyId}`;
+const noticeCustomer = (phoneNumber , customerName , serviceName ) => {
+  const bodyId = 155837;
+  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&text='ترمیم '&text=${serviceName}&to=${phoneNumber}&bodyId=${bodyId}`;
   axios.get(url)
   .then(() => {
     return true;
   })
   .catch((err) => {
     console.log(err);
-    return false
+    sendSMS("09033062112" , "we have some problems in notices")
   })
 
 }
@@ -184,7 +183,7 @@ module.exports = {
     customerSignupByAdmin,
     signUpByCustomerSms,
     refererCustomerSms,
-    rememberingCustomer,
-    afterReceptionSMS,
-    getCredit
+    getCredit,
+    noticeCustomer,
+    afterReceptionSMS
 } ;
