@@ -6,8 +6,8 @@ const cron = require('node-cron');
 const { getCredit} = require("./Config/MeliPayamkconfig");
 const {sendCustomerNotice} = require('./workers/remembering')
 const app = express();
-const port = isProduction ? 3000 : 3200;
 const isProduction =  process.env.NODE_ENV === 'production' 
+const port = isProduction ? 3000 : 3200;
 
 app.use(express.json());
 app.use(
