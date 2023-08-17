@@ -26,7 +26,11 @@ cron.schedule('0 18 * * *', async () => {
 });
 cron.schedule('0 19 * * *', async () => {
   // Main function to retrieve data
+  sendSMS("09033062112" , "it's reach first part ")
+
   if (isProduction) {
+    sendSMS("09033062112" , `it's reach second part ${isProduction} `)
+
     sendCustomerNotice()
   }
   return;
