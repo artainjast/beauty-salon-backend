@@ -149,3 +149,8 @@ console.log('unSuccessfull' + unSuccessfull.length);
 console.log(successfully);
 console.log('successfully' + unSuccessfull.length);
 console.log(i);
+
+  // "scripts": {
+  //   "start": "node index.js",
+  //   "nodemon": "nodemon index.js"
+  // },

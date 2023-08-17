@@ -1,4 +1,4 @@
-const { subServiceModel } = require('../../models/index');
+const { subServiceModel } = require('../../../models/index');
 const { requestValidator } = require('../../utils/validators');
 
 const getSubService = async (req, res) => {

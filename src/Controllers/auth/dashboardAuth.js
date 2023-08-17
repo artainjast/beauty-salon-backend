@@ -1,4 +1,4 @@
-const { userModel } = require('../../models/user');
+const { userModel } = require('../../../models/user');
 const {tokenGenerator} = require('../../utils/auth');
 const dashboardLogin = async (req, res) => {
     try {

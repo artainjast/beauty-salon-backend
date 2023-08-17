@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const AWS = require('aws-sdk');
 const {isUndefined} = require('../../utils/index')
-const { InstagramPost  , InstagramPostImage} = require('../../models/post');
+const { InstagramPost  , InstagramPostImage} = require('../../../models/post');
 
 // configure AWS S3 for Liara bucket
 const s3 = new AWS.S3({

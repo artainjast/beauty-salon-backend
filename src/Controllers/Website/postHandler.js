@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { InstagramPost  , InstagramPostImage} = require('../../models/post');
+const { InstagramPost  , InstagramPostImage} = require('../../../models/post');
 
 const getPosts = async (req, res) => {
     try {

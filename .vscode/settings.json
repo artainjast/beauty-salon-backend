@@ -1,3 +1,5 @@
 {
-  "cSpell.words": ["FULLNAME", "PHONENUMBER"]
+  "cSpell.words": ["FULLNAME", "PHONENUMBER"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "javascript.preferences.importModuleSpecifier": "project-relative"
 }

@@ -1,6 +1,6 @@
 const { QueryTypes } = require("sequelize");
 const db = require("../../Config/DBconfig");
-const { mainServiceModel } = require("../../models/mainService");
+const { mainServiceModel } = require("../../../models/mainService");
 
 const getMainServices = async (req, res, next) => {
   try {

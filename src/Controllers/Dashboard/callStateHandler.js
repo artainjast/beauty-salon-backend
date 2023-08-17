@@ -1,4 +1,4 @@
-const { callStateModel } = require("../../models/callState");
+const { callStateModel } = require("../../../models/callState");
 
 const getCallStates = async (req, res) => {
     try {

@@ -1,7 +1,7 @@
 
 
 
-const { customerModel } = require('../../models/customer');
+const { customerModel } = require('../../../models/customer');
 
 async function getCustomerData(req, res, next) {
   try {

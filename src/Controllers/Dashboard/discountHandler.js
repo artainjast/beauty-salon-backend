@@ -1,4 +1,4 @@
-const {discountModel} = require('../../models/index');
+const {discountModel} = require('../../../models/index');
 const randomstring = require("randomstring");
 
 // Create a discount

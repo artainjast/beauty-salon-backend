@@ -5,7 +5,7 @@ const https = require('https');
 const username = '9191402617';
 const password = 'ML%236S';
 
-const sendSMS  = (phoneNumber , text) => {
+export const sendSMS  = (phoneNumber , text) => {
   const data = {
     'from': '50004001402617',
     'to': toEn(phoneNumber) ,
@@ -160,7 +160,7 @@ const sendOTP = (otpCode , phoneNumber) => {
 
 }
   
-const getCredit = () => {
+export const getCredit = () => {
   try {
     axios.get('https://console.melipayamak.com/api/receive/credit/f4b71c314be949ec93fa7a65851c4786').then((response) => {
       console.log(response.data.amount);
@@ -177,6 +177,9 @@ const getCredit = () => {
 
  
 }
+
+
+
 module.exports = {
     sendSMS,
     sendOTP,

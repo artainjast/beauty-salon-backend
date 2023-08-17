@@ -1,4 +1,4 @@
-const { capacityModel } = require('../../models/capacity');
+const { capacityModel } = require('../../../models/capacity');
 
 // Add capacity for a particular date, start time, end time, and number of slots
 const addCapacity = async (req, res) => {

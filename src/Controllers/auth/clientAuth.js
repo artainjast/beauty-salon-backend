@@ -1,7 +1,7 @@
 const randomstring = require("randomstring");
 const redisClient = require('../../Config/Redisconfig')
-const { customerModel } = require("../../models/index");
-const { referralModel} = require("../../models/refral")
+const { customerModel } = require("../../../models/index");
+const { referralModel} = require("../../../models/refral")
 const { toEn  } = require("../../utils");
 const {tokenGenerator} = require('../../utils/auth')
 const { Op } = require("sequelize");

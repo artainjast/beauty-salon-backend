@@ -1,6 +1,6 @@
 const { QueryTypes } = require("sequelize");
 const db = require("../../Config/DBconfig");
-const { counselingModel } = require('../../models/counseling');
+const { counselingModel } = require('../../../models/counseling');
 const { toEn } = require('../../utils/index');
 const { phoneNumberValidator } = require('../../utils/validators');
 const { requestValidator } = require('../../utils/validators');

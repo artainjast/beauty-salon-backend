@@ -1,4 +1,4 @@
-const {customerDiscountsModel} = require('../../models/index');
+const {customerDiscountsModel} = require('../../../models/index');
 
 // Create a customer discount
 const createCustomerDiscount = async (req, res, next) => {

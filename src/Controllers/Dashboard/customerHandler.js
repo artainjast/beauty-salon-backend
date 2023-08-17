@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
 const randomstring = require("randomstring");
-const { customerModel } = require("../../models/index");
+const { customerModel } = require("../../../models/index");
 const { toEn } = require('../../utils/index');
 const { phoneNumberValidator } = require('../../utils/validators');
 const { requestValidator } = require('../../utils/validators');

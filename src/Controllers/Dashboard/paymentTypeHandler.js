@@ -1,4 +1,4 @@
-const {paymentTypeModel} = require('../../models/paymentType');
+const {paymentTypeModel} = require('../../../models/paymentType');
 
 // Create a payment type
 const createPaymentType = async (req, res, next) => {

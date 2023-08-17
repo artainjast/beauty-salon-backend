@@ -1,6 +1,6 @@
 const { QueryTypes } = require("sequelize");
 const db = require("../../Config/DBconfig");
-const { receptionModel , receptionServiceModel , subServiceModel, customerModel  , receptionPaymentModel , customerDiscountsModel , discountModel} = require("../../models/index");
+const { receptionModel , receptionServiceModel , subServiceModel, customerModel  , receptionPaymentModel , customerDiscountsModel , discountModel} = require("../../../models/index");
 const { limitQuery } = require('../../utils/queryLimit');
 const { requestValidator } = require('../../utils/validators');
 const { afterReceptionSMS } = require("../../Config/MeliPayamkconfig");
