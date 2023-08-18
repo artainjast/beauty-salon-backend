@@ -17,8 +17,8 @@ const getSubService = async (req, res) => {
     }
 
     // Parse limit and offset as integers
-    const parsedLimit = limit ? parseInt(limit) : undefined;
-    const parsedOffset = offset ? parseInt(offset) : undefined;
+    const parsedLimit = limit ? Number(limit) : undefined;
+    const parsedOffset = offset ? Number(offset) : undefined;
 
     // Query the sub-services using Sequelize
     const subServices = await subServiceModel.findAll({
@@ -66,7 +66,7 @@ const addSubService = async (req , res) => {
     const { price, name } = req.body
     const isParamValid = requestValidator(price, name);
     if (!isParamValid) {
-      throw 'ورودی ها ناقص است';
+      throw new Error('ورودی ها ناقص است');
     }
     const unixTime = Math.floor(Date.now() / 1000);
     await subServiceModel.create({
@@ -112,12 +112,13 @@ const updateSubService = async (req , res) => {
     })
   } catch (error) {
     // Handle any errors that occur during the update process
+    // tslint:disable-next-line:no-console
     console.error("Error updating sub-service:", error.message);
     throw error;
   }
 
 };
-const deleteSubService = () => { };
+// const deleteSubService = () => { };
 
 module.exports = {
     getSubService,

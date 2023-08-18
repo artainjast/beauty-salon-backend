@@ -11,7 +11,7 @@ const oldAddReception = async (req, res, next) => {
     const { customerId, description, services, receptionDate = Math.floor(Date.now() / 1000) } = req.body;
     const isParamValid = requestValidator(customerId, services, receptionDate);
     if (!isParamValid) {
-      throw 'ورودی ها ناقص است';
+      throw new Error('ورودی ها ناقص است');
     }
     const customer = await customerModel.findOne({
       where: {
@@ -19,12 +19,12 @@ const oldAddReception = async (req, res, next) => {
       },
     });
     if (!customer.id) {
-      throw 'کاربر وجود ندارد'
+      throw new Error('کاربر وجود ندارد')
     }
     if (services && services.length >= 1) {
       let query = `SELECT PRICE FROM mariNail_SubServices WHERE`;
       services.map((item, index) => {
-        query += ` ID = ${item.id} ${index != services.length - 1 ? 'OR' : ''} `;
+        query += ` ID = ${item.id} ${index !== services.length - 1 ? 'OR' : ''} `;
       });
       const servicePrices = await db.query(query, { type: QueryTypes.SELECT });
       let totalPrice = 0;
@@ -185,8 +185,6 @@ const oldAddReception = async (req, res, next) => {
 //   }
 // };
 
-
-
 //it does 'not' change service of a reception
 //it's not complete
 
@@ -195,7 +193,7 @@ const addReception = async (req, res, next) => {
     const { customerId, description, services, receptionDate = Math.floor(Date.now() / 1000), payments, discountCode } = req.body;
     const isParamValid = requestValidator(customerId, services, receptionDate, payments);
     if (!isParamValid) {
-      throw 'ورودی ها ناقص است';
+      throw new Error('ورودی ها ناقص است');
     }
 
     const customer = await customerModel.findOne({
@@ -205,7 +203,7 @@ const addReception = async (req, res, next) => {
       },
     });
     if (!customer.id) {
-      throw 'کاربر وجود ندارد';
+      throw new Error('کاربر وجود ندارد');
     }
 
     if (services && services.length >= 1) {
@@ -281,7 +279,9 @@ const addReception = async (req, res, next) => {
           const totalPayment = payments.reduce((sum, payment) => sum +  parseFloat(payment.amount), 0);
           if (discountedPrice < totalPayment) {
             await reception.update({ DELETED_AT: unixTime });
-            discountCode && await selectedDiscount.update({ is_used: 0 });
+            if (discountCode) {
+              await selectedDiscount.update({ is_used: 0 });
+            }
             res.send({
               status: 0,
               message: 'مبلغ پرداختی با بیشتر از جمع فاکتور است.'
@@ -290,7 +290,9 @@ const addReception = async (req, res, next) => {
           }
           if (discountedPrice > totalPayment) {
             await reception.update({ DELETED_AT: unixTime });
-            discountCode && await selectedDiscount.update({ is_used: 0 });
+            if (discountCode) {
+              await selectedDiscount.update({ is_used: 0 });
+            }
             res.send({
               status: 0,
               message: 'مبلغ پرداختی با قیمت کل سرویس‌ها مطابقت ندارد.'
@@ -307,7 +309,9 @@ const addReception = async (req, res, next) => {
           }));
         } else {
           await reception.update({ DELETED_AT: unixTime });
-          discountCode && await selectedDiscount.update({ is_used: 0 });
+          if (discountCode) {
+            await selectedDiscount.update({ is_used: 0 });
+          }
           res.send({
             status: 0,
             message: 'ورودی های مبلغ دریافتی کامل نیست.'
@@ -346,7 +350,6 @@ const addReception = async (req, res, next) => {
     });
     return;
   } catch (error) {
-    console.log(error);
     res.status(422).send({
       error : error ,
       status: -1,
@@ -354,8 +357,6 @@ const addReception = async (req, res, next) => {
     });
   }
 };
-
-
 
 const editReception = async (req, res, next) => {
   try {
@@ -391,7 +392,12 @@ const editReception = async (req, res, next) => {
       message: "پذیرشی با این نشانه وجود ندارد.",
     });
     return;
-  } catch (error) {}
+  } catch (error) {
+    res.send({
+      status:0,
+      message: 'مشکلی پیش آمده است.'
+    })
+  }
 };
 const deleteReception = async (req, res, next) => {
   try {
@@ -450,8 +456,8 @@ const getReception = async (req, res, next) => {
       query += ` AND (mariNail_User.PHONE_NUMBER LIKE '%${text}%' OR mariNail_User.FIRST_NAME LIKE '%${text}%' OR mariNail_User.LAST_NAME LIKE '%${text}%') AND (mariNail_User.DELETED_AT = 0) `;
     }
     //from date filtering
-    if (req.query['from_date'] && req.query['from_date'].length > 0) {
-      let fromDate = req.query['from_date'];
+    if (req.query.from_date && req.query.from_date.length > 0) {
+      let fromDate = req.query.from_date;
       //below conditon just work for (en-US) time
       // if (fromDate.indexOf("/") !== -1 || fromDate.indexOf(".") !== -1 ) {
       //   fromDate.length === 10 ? fromDate = parseInt((new Date(fromDate).getTime() / 1000).toFixed(0)) : ''
@@ -459,8 +465,8 @@ const getReception = async (req, res, next) => {
       query += ` AND mariNail_Receptions.CREATED_AT >= ${fromDate}`;
     }
     //to date filtering
-    if (req.query['to_date'] && req.query['to_date'].length > 0) {
-      let toDate = req.query['to_date'];
+    if (req.query.to_date && req.query.to_date.length > 0) {
+      let toDate = req.query.to_date;
       //below conditon just work for (en-US) time
       // if (fromDate.indexOf("/") !== -1 || fromDate.indexOf(".") !== -1 ) {
       //   fromDate.length === 10 ? fromDate = parseInt((new Date(fromDate).getTime() / 1000).toFixed(0)) : ''
@@ -476,6 +482,7 @@ const getReception = async (req, res, next) => {
       data: reception
     });
   } catch (error) {
+    // tslint:disable-next-line:no-console
     console.log(error);
   }
 };
@@ -507,7 +514,13 @@ const getSpecificReception = async (req, res, next) => {
       }
     });
   } catch (error) {
-    
+    res.status = 500;
+    res.send({
+      status: -1,
+      message: "مشکلی در سرور,لطفا دوباره تلاش کنید.",
+    });
+    next(error);
+    return;
   }
   
 }
@@ -554,7 +567,6 @@ const  getUserReceptions = async(req, res)  => {
       receptions: formattedReceptions
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
 }

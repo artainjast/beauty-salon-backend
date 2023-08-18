@@ -8,5 +8,4 @@ router.post('/', addSubService);
 router.put('/:id', updateSubService);
 router.delete('/:id', updateSubService);
 
-
 module.exports = { subServiceDashboardRouter: router } ;

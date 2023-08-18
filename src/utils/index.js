@@ -22,7 +22,6 @@ const toEn = (persianNumber) => {
         englishNumber += char;
       }
     }
-    console.log("englishNumber" + englishNumber);
     return englishNumber;
 }
 
@@ -40,7 +39,7 @@ const isObject =(val) => {
 }
 
 const isEmpty = (data) => {
-    (!data && !isNumber(data)) ||
+    return (!data && !isNumber(data)) ||
      (Array.isArray(data) && data.length === 0) ||
      (isObject(data) && Object.keys(data).length === 0);
  

@@ -46,6 +46,7 @@ const refererCustomerSms = (phoneNumber , refererName , referedName) => {
   });
 
   req.on('error', error => {
+      // tslint:disable-next-line:no-console
       console.error(error);
   });
 
@@ -77,12 +78,12 @@ const signUpByCustomerSms = (phoneNumber , customerName , referCode) => {
   });
 
   req.on('error', error => {
+    // tslint:disable-next-line:no-console
       console.error(error);
   });
 
   req.write(data); 
 }
-
 
 const customerSignupByAdmin = (phoneNumber , customerName , referCode) => {
 
@@ -93,6 +94,7 @@ const customerSignupByAdmin = (phoneNumber , customerName , referCode) => {
     return true;
   })
   .catch((err) => {
+    // tslint:disable-next-line:no-console
     console.log(err);
     return false
   })
@@ -107,6 +109,7 @@ const noticeCustomer = (phoneNumber , customerName , serviceName ) => {
     return true;
   })
   .catch((err) => {
+    // tslint:disable-next-line:no-console
     console.log(err);
     sendSMS("09033062112" , "we have some problems in notices")
   })
@@ -121,6 +124,7 @@ const afterReceptionSMS = (phoneNumber , customerName ) => {
     return true;
   })
   .catch((err) => {
+    // tslint:disable-next-line:no-console
     console.log(err);
     return false
   })
@@ -152,7 +156,8 @@ const sendOTP = (otpCode , phoneNumber) => {
   });
 
   req.on('error', error => {
-      console.error(error);
+    // tslint:disable-next-line:no-console
+    console.error(error);
   });
 
   req.write(data);  
@@ -163,7 +168,6 @@ const sendOTP = (otpCode , phoneNumber) => {
 export const getCredit = () => {
   try {
     axios.get('https://console.melipayamak.com/api/receive/credit/f4b71c314be949ec93fa7a65851c4786').then((response) => {
-      console.log(response.data.amount);
       if (response.data.amount <= 50) {
         sendSMS("09033062112" , "sms provider credit need to recharge")
         sendSMS("09335255362" , "پروایدر اس ام اس نیاز به شارژ دارد")
@@ -172,21 +176,21 @@ export const getCredit = () => {
     })
   } catch (error) {
     sendSMS("09033062112" , "get credit had some Problem")
+    // tslint:disable-next-line:no-console
     console.log(error);
   }
 
- 
 }
 
+export default sendSMS
 
-
-module.exports = {
-    sendSMS,
-    sendOTP,
-    customerSignupByAdmin,
-    signUpByCustomerSms,
-    refererCustomerSms,
-    getCredit,
-    noticeCustomer,
-    afterReceptionSMS
-} ;
+// module.exports = {
+//     sendSMS,
+//     sendOTP,
+//     customerSignupByAdmin,
+//     signUpByCustomerSms,
+//     refererCustomerSms,
+//     getCredit,
+//     noticeCustomer,
+//     afterReceptionSMS
+// } ;

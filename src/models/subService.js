@@ -45,8 +45,6 @@ const subService = db.define(
   }
 );
 
-
-
 module.exports = {
   subServiceModel: subService,
 };

@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 const randomstring = require("randomstring");
-const { customerModel } = require("../../../models/index");
-const { toEn } = require('../../utils/index');
+const { customerModel } = require("@/models/index");
+const { toEn } = require('src/models/index');
 const { phoneNumberValidator } = require('../../utils/validators');
 const { requestValidator } = require('../../utils/validators');
 const { customerSignupByAdmin } = require("../../Config/MeliPayamkconfig");
@@ -12,7 +12,7 @@ const addCustomer = async (req, res, next) => {
     if (phoneNumberValidator(phoneNumber) !== true) throw phoneNumberValidator(phoneNumber);
     const isParamValid = requestValidator(firstName, lastName, phoneNumber);
     if (!isParamValid) {
-      throw 'ورودی ها ناقص است';
+      throw new Error('ورودی ها ناقص است');
     }
     const isNewUser = await customerModel.findOne({
       where: {
@@ -45,7 +45,6 @@ const addCustomer = async (req, res, next) => {
     });
     return;
   } catch (error) {
-    console.log(error);
     res.status(422).send({
       status: -1,
       message: error ? error : 'مشکلی در سرور,لطفا دوباره تلاش کنید.'
@@ -99,12 +98,11 @@ const editCustomer = async (req, res, next) => {
   }
 };
 
-
 const getCustomers = async (req, res, next) => {
   try {
     let users;
-    const offset = req.query.offset ? parseInt(req.query.offset) : 0;
-    const limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    const offset = req.query.offset ? Number(req.query.offset) : 0;
+    const limit = req.query.limit ? Number(req.query.limit) : 20;
 
     const searchText = req.query.text ? req.query.text.trim() : '';
 
@@ -151,7 +149,6 @@ const getCustomers = async (req, res, next) => {
   }
 };
 
-
 const deleteCustomer = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -194,8 +191,6 @@ const deleteCustomer = async (req, res, next) => {
     return;
   }
 };
-
-
 
 module.exports = {
   addCustomer,

@@ -20,7 +20,6 @@ const registerOrLogin = async (req, res) => {
     }
     redisClient.get(toEn(phoneNumber), async (err, redisOtpCode) => {
         if (err) {
-          console.log(err);
           res.status(500).json({ message: "Internal server error" });
     } else {
             const customer = await customerModel.findOne({ where: { PHONE_NUMBER: toEn(phoneNumber) , DELETED_AT: 0 } });
@@ -39,11 +38,9 @@ const registerOrLogin = async (req, res) => {
     })
 
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 const verify =  async (req, res) => {
   try {
@@ -61,7 +58,6 @@ const verify =  async (req, res) => {
     }
     
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }  
   
@@ -82,11 +78,9 @@ const verifyRegister = async  (req, res ) => {
     // Retrieve OTP code from Redis and compare with submitted OTP code
     redisClient.get(toEn(phoneNumber), async (err, redisOtpCode) => {
       if (err) {
-        console.log(err);
         res.status(500).json({ message: "Internal server error" });
       } else {
         if (redisOtpCode === otpCode) {
-          console.log("Customer authenticated successfully!");
           let referringCustomer = null;
           if (referCode) {
             referringCustomer = await customerModel.findOne({
@@ -131,32 +125,26 @@ const verifyRegister = async  (req, res ) => {
         });
 
     } else {
-          console.log("Invalid OTP code");
           res.status(400).json({ message: "Invalid OTP code" });
         }
       }
     });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal server error" });
     }  
 };
-
 
 const verifyLogin =  async  (req, res , customerId) => { 
     const {phoneNumber , otpCode } = req.body;
     // Retrieve OTP code from Redis and compare with submitted OTP code
     redisClient.get(toEn(phoneNumber), (err, redisOtpCode) => {
     if (err) {
-      console.log(err);
       res.status(500).json({ message: "Internal server error" });
     }
     if (redisOtpCode === null) {
-      console.log("Invalid OTP code");
       res.status(400).json({ message: "لطفا دوباره وارد شوید." , isOtpExpired : true});
     } else {
       if (redisOtpCode === otpCode) {
-        console.log("Customer authenticated successfully!");
         // Proceed with customer login
         const token = tokenGenerator(customerId , process.env.CLIENT_AUTH_PRIVATE_KEY , true , '48h');
         res.status(200).json({ 
@@ -164,13 +152,11 @@ const verifyLogin =  async  (req, res , customerId) => {
           accessToken : token
         });
       } else {
-        console.log("Invalid OTP code");
         res.status(400).json({ message: "Invalid OTP code" });
       }
     }
   });
 };
-
 
 const registerCustomer = async(req, res) => {
     const { referCode } = req.body;
@@ -195,7 +181,6 @@ const registerCustomer = async(req, res) => {
       return setRedisOTP(req , res  , true)
       
     } catch (error) {
-      console.error(error);
       return res.status(500).json({
         message: "Internal server error"
       });
@@ -206,7 +191,6 @@ const setRedisOTP = (req , res  , isRegister) => {
     const generatedOtpCode = randomstring.generate({ length: 6, charset: "numeric" });
       redisClient.set(toEn(phoneNumber), generatedOtpCode, "EX", process.env.OTP_EXPIRY_TIME, (err) => {
         if (err) {
-          console.log(err);
           res.status(500).json({ message: "Internal server error" });
         } else {
             //sendOTPSMS by below function 

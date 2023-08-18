@@ -16,9 +16,9 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const node_cron_1 = __importDefault(require("node-cron"));
-// import {getCredit  , sendSMS} from '@/Config/'
-// import { allRoutes } from "@/router/router.js";
-// import { sendCustomerNotice } from './workers/remembering';
+const MeliPayamkconfig_1 = require("./Config/MeliPayamkconfig");
+const router_1 = require("./router/router");
+const remembering_1 = require("./workers/remembering");
 const app = (0, express_1.default)();
 const isProduction = process.env.NODE_ENV === 'production';
 const port = isProduction ? 3000 : 3200;
@@ -27,23 +27,19 @@ app.use(body_parser_1.default.urlencoded({
     extended: true,
 }));
 app.use((0, cors_1.default)());
-// app.use(allRoutes);
-app.use('/', () => {
-    // tslint:disable-next-line:no-console
-    console.log("reach");
-});
+app.use(router_1.allRoutes);
 app.use((err, req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
 });
 node_cron_1.default.schedule('0 18 * * *', () => __awaiter(void 0, void 0, void 0, function* () {
-    // getCredit()
+    (0, MeliPayamkconfig_1.getCredit)();
 }));
 node_cron_1.default.schedule('0 19 * * *', () => __awaiter(void 0, void 0, void 0, function* () {
     // Main function to retrieve data
-    // sendSMS("09033062112" , "it's reach first part ")
+    (0, MeliPayamkconfig_1.sendSMS)("09033062112", "it's reach first part ");
     if (isProduction) {
-        // sendSMS("09033062112" , `it's reach second part ${isProduction} `)
-        // sendCustomerNotice()
+        (0, MeliPayamkconfig_1.sendSMS)("09033062112", `it's reach second part ${isProduction} `);
+        (0, remembering_1.sendCustomerNotice)();
     }
     return;
 }));

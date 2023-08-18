@@ -1,0 +1,1 @@
+{"version":3,"file":"mainService.js","sourceRoot":"","sources":["../../../src/router/dashboard/mainService.js"],"names":[],"mappings":"AAAA,MAAM,MAAM,GAAG,OAAO,CAAC,SAAS,CAAC,CAAC,MAAM,EAAE,CAAC;AAC3C,MAAM,EAAE,cAAc,EAAE,GAAG,OAAO,CAAC,gDAAgD,CAAC,CAAC;AAErF,MAAM,CAAC,GAAG,CAAC,GAAG,EAAG,cAAc,CAAC,CAAC;AAEjC,MAAM,CAAC,OAAO,GAAG;IACf,0BAA0B,EAAE,MAAM;CACnC,CAAC"}

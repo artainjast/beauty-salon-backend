@@ -13,7 +13,14 @@ const getCallStates = async (req, res) => {
         )
         
     } catch (error) {
-        
+        res.status(500);
+        res.send(
+            {
+                status:0,
+                message: 'عملیات موفقیت أمیز نبود.',
+
+            }
+        )
     }
 }
 

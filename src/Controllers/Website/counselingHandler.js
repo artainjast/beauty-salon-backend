@@ -11,7 +11,7 @@ const addCounseling = async (req, res) => {
     if (phoneNumberValidator(phoneNumber) !== true) throw phoneNumberValidator(phoneNumber);
     const isParamValid = requestValidator(nickName, phoneNumber);
     if (!isParamValid) {
-      throw 'لطفا دیتای کامل وارد کنید.'
+      throw new Error('لطفا دیتای کامل وارد کنید.')
     }
     const unixTime = Math.floor(Date.now() / 1000);
     await counselingModel.create({
@@ -35,11 +35,13 @@ const getCounseling = async (req, res) => {
   let counseling;
   let query =
     'SELECT mariNail_CounselingRequests.ID , mariNail_CounselingRequests.PHONENUMBER , mariNail_CounselingRequests.NICKNAME , mariNail_CounselingRequests.CREATED_AT , mariNail_CallingStates.ID AS "STATE_ID" , mariNail_CallingStates.STATE_NAME FROM mariNail_CounselingRequests LEFT OUTER JOIN mariNail_CallingStates ON mariNail_CounselingRequests.CALLSTATE = mariNail_CallingStates.ID WHERE mariNail_CounselingRequests.DELETED_AT = 0 ORDER BY mariNail_CounselingRequests.CALLSTATE ';
-  req.query.type && req.query.type.length >= 1
-    ? (query += ` AND mariNail_CounselingRequests.CALLSTATE = ${req.query.type}  `)
-    : "";
+  if (req.query.type && req.query.type.length >= 1) {
+      query += ` AND mariNail_CounselingRequests.CALLSTATE = ${req.query.type} `;
+  }
   query += ' LIMIT 10';
-  req.query.offset && req.query.offset >= 1 ? (query += ` OFFSET ${req.query.offset}`) : '';
+  if (req.query.offset && req.query.offset >= 1) {
+    query += ` OFFSET ${req.query.offset}`;
+  }
   counseling = await db.query(query, { type: QueryTypes.SELECT });
   res.send({
     status: 1,

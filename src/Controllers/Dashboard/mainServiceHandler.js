@@ -6,9 +6,9 @@ const getMainServices = async (req, res, next) => {
   try {
     let services;
     let query = `SELECT id, NAME FROM mariNail_Services AS mariNail_Services WHERE mariNail_Services.DELETED_AT = 0`;
-    req.query.text && req.query.text.length > 0
-      ? (query += ` AND mariNail_Services.NAME LIKE '%${req.query.text}%' `)
-      : "";
+    if (req.query.text && req.query.text?.length > 0) {
+      query += ` AND mariNail_Services.NAME LIKE '%${req.query.text}%' `;
+    }
     services = await db.query(query, { type: QueryTypes.SELECT });
     res.send({
       status: 1,
@@ -16,9 +16,13 @@ const getMainServices = async (req, res, next) => {
       totalCount: services.length,
       data: services,
     });
-  } catch (error) {}
+  } catch (error) {
+    res.send({
+      status: 0,
+      message: "سرویسی یافت نشد",
+    });
+  }
 };
-
 
 const addMainService = async (req , res) => {
   try {
@@ -26,9 +30,9 @@ const addMainService = async (req , res) => {
     const test = await mainServiceModel.create({
       NAME: mainServiceName,
     });
-    console.log(test);
   } catch (error) {
-    
+    // tslint:disable-next-line:no-console
+    console.log(error);
   }
 
 };

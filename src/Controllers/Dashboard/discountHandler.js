@@ -13,7 +13,6 @@ const createDiscount = async (req, res, next) => {
       res.status(400).json({ message: 'Invalid request body' });
       return;
     }
-    console.log(amount);
     // Create the discount
     const discount = await discountModel.create({
       voucherCode,
@@ -25,7 +24,6 @@ const createDiscount = async (req, res, next) => {
 
     res.status(201).json(discount);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Failed to create discount', error });
   }
 };
@@ -89,7 +87,6 @@ const checkVoucherCode = async (req, res, next) => {
     res.status(500).json({ message: 'Failed to retrieve voucher code', error });
   }
 };
-
 
 // Update a discount
 const updateDiscount = async (req, res, next) => {

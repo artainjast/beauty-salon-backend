@@ -31,8 +31,6 @@ const receptionPayment = db.define(
   }
 );
 
-
-
 module.exports = {
   receptionPaymentModel : receptionPayment
 };

@@ -1,6 +1,4 @@
 
-
-
 const { customerModel } = require('../../../models/customer');
 
 async function getCustomerData(req, res, next) {
@@ -27,9 +25,6 @@ async function getCustomerData(req, res, next) {
     return next(error);
   }
 }
-
-
-
 
 module.exports = {
     getCustomerData

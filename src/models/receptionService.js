@@ -20,8 +20,6 @@ const receptionService = db.define(
   }
 );
 
-
-
 module.exports = {
   receptionServiceModel: receptionService,
 }; 

@@ -34,12 +34,14 @@ const dashboardLogin = async (req, res) => {
         });
         return;
     } catch (error) {
-        
+      res.status(500)
+      res.send({
+        status: 0,
+        message: 'مشکلی در سرویس لاگین وجود آمده است'
+     })
     }
     
 };
-
-
 
 // Here's the updated implementation with JWT token authentication for the `verify-otp` route:
 // POST method for registration with referral system and OTP verification

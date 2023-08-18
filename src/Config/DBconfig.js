@@ -13,14 +13,16 @@ try {
       }); 
    }
 } catch (error) {
+   // tslint:disable-next-line:no-console
    console.log(error);
 }
 
-
  try {
   db.authenticate();
+    // tslint:disable-next-line:no-console
   console.log("Connection has been established successfully.");
 } catch (error) {
+     // tslint:disable-next-line:no-console
   console.error("Unable to connect to the database:", error);
 }
 

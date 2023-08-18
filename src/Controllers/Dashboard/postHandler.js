@@ -39,6 +39,7 @@ const uploadPost = async (req, res) => {
   
       return res.status(201).json({ message: 'پست با موفقیت ساخته شد.' });
     } catch (error) {
+      // tslint:disable-next-line:no-console
       console.log(error);
       return res.status(500).json(error);
     }

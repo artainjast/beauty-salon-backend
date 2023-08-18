@@ -5,6 +5,7 @@
         "target": "es6",
         "noImplicitAny": true,
         "moduleResolution": "node",
+        "allowJs": true,
         "sourceMap": true,
         "outDir": "dist",
         "baseUrl": ".",
@@ -13,8 +14,8 @@
         }
     },
     "include": [
-        // "src/**/*"
-        "**/*.ts",
+        "src/**/*.ts" ,
+        // "src/Config/MeliPayamkconfig.js"
     ],
     "exclude": [
         "node_modules/*"

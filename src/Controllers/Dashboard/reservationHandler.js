@@ -35,7 +35,6 @@ const addCapacity = async (req, res) => {
       message: 'Capacity added successfully.',
     });
   } catch (err) {
-    console.error(err);
     return res.status(500).send({
       message: 'Error adding capacity. Please try again later.',
     });

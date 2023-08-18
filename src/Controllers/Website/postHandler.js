@@ -23,7 +23,6 @@ const getPosts = async (req, res) => {
       });
       res.json(posts);
     } catch (error) {
-      console.log(error);
       res.status(500).json({ error: 'Failed to get posts' });
     }
 };
@@ -40,7 +39,6 @@ const getOnePost = async (req, res) => {
 
     res.json(post);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'Failed to get post' });
   }
 };

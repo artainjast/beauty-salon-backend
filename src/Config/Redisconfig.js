@@ -11,10 +11,12 @@ const redisClient = new redis({
 });
 
 redisClient.on("error", (err) => {
+  // tslint:disable-next-line:no-console
   console.log("Redis Error " + err);
 });
 
 redisClient.on("connect", () => {
+  // tslint:disable-next-line:no-console
     console.log("Redis connected");
 });
 

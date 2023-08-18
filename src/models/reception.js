@@ -47,7 +47,6 @@ const reception = db.define(
   }
 );
 
-
 module.exports = {
   receptionModel: reception
 };

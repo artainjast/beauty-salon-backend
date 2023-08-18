@@ -3,7 +3,6 @@ const { customerModel, receptionModel, receptionServiceModel, subServiceModel } 
 const {noticeCustomer} = require('../Config/MeliPayamkconfig');
 const { sendSMS } = require("../Config/MeliPayamkconfig");
 
-
 const calculateTime = (day) => {
   return Math.floor(Date.now() / 1000) - Number(day) * 24 * 60 * 60;
 }
@@ -38,6 +37,7 @@ const getCustomerNoticeData = async () => {
     });
     return customersData;
   } catch (error) {
+      // tslint:disable-next-line:no-console
     console.error('Error occurred:', error);
   }
 }
@@ -50,6 +50,7 @@ const rememberNotice = async(time , services , serviceName) => {
       noticeCustomer(customer.PHONE_NUMBER , customer.FIRST_NAME , serviceName )
     })
   } catch (error) {
+      // tslint:disable-next-line:no-console
     console.error('Error occurred:', error);
   }
 }
@@ -109,7 +110,6 @@ const noticeKashtPa = async () => {
   [15],
   'کاشت پا')
 }
-
 
 const sendCustomerNotice =  async () => {
   noticeTarmimPodr(); 
