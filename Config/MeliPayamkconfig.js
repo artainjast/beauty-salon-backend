@@ -12,10 +12,11 @@ const sendSMS  = (phoneNumber , text) => {
     'text': text
   };
   axios.post(`https://console.melipayamak.com/api/send/simple/${process.env.MELI_PAYAMAK_TOKEN}` , data)
-    .then(() => {
+    .then((res) => {
       return true;
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       return false
     })
 
@@ -101,7 +102,7 @@ const customerSignupByAdmin = (phoneNumber , customerName , referCode) => {
 
 const noticeCustomer = (phoneNumber , customerName , serviceName ) => {
   const bodyId = 155837;
-  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&text='ترمیم '&text=${serviceName}&to=${phoneNumber}&bodyId=${bodyId}`;
+  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&text=ترمیم&text=${serviceName}&to=${phoneNumber}&bodyId=${bodyId}`;
   axios.get(url)
   .then(() => {
     return true;

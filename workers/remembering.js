@@ -8,7 +8,7 @@ const calculateTime = (day) => {
   return Math.floor(Date.now() / 1000) - Number(day) * 24 * 60 * 60;
 }
  
-const getCustomerNoticeData = async () => {
+const getCustomerNoticeData = async (time , services) => {
   try {
     const customersData = await customerModel.findAll({
       include: [
