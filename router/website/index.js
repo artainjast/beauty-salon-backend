@@ -2,12 +2,12 @@ const router = require("express").Router();
 const { customerClientRouter } = require('./customer');
 const { postClientRouter } = require('./posts');
 const {counselingClientRouter} = require('./counseling');
-const {receptionClientRouter} = require('./reception');
+const {profileRouter} = require('./profile');
 
 router.use('/customer', customerClientRouter);
 router.use('/posts', postClientRouter);
 router.use("/counseling", counselingClientRouter);
-router.use("/reception", receptionClientRouter);
+router.use("/profile", profileRouter);
 
 module.exports = {
     clientRouter : router
