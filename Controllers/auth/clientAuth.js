@@ -5,7 +5,7 @@ const { referralModel} = require("../../models/refral")
 const { toEn  } = require("../../utils");
 const {tokenGenerator} = require('../../utils/auth')
 const { Op } = require("sequelize");
-const {sendOTP} = require('../../Config/MeliPayamkconfig')
+const {sendOTP , signUpByCustomerSms} = require('../../Config/MeliPayamkconfig')
 
 const iranPhoneNumberRegex = /^(\+98|0)?9\d{9}$/;
 
