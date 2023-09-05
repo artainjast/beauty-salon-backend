@@ -66,9 +66,20 @@ const decodeCustomerToken = (req, res, next) => {
     return res.status(401).json({ error: 'Invalid token' });
   }
 }
-
+const addCustomerIdToRequest = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    const [bearer , token] = authHeader.split(' ');
+    const decoded = jwt.verify(token, process.env.CLIENT_AUTH_PRIVATE_KEY);
+    req.user = { customerId: decoded.customerId };
+    next();
+  } catch (error) {
+    next();
+  }
+}
 module.exports = {
   authenticateDashboardJWT, 
   authenticateClientJWT,
-  decodeCustomerToken
+  decodeCustomerToken,
+  addCustomerIdToRequest
 };

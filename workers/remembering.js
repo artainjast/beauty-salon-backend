@@ -106,7 +106,7 @@ const noticeKashtPa = async () => {
     start: startUnixTime,
     end : new Date(startUnixTime * 1000 + 24 * 60 * 60 * 1000).getTime() / 1000
   },
-  [15],
+  [46],
   'کاشت پا')
 }
 

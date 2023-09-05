@@ -551,7 +551,9 @@ const  getUserReceptions = async(req, res)  => {
       };
     });
     return res.status(200).json({
-      receptions: formattedReceptions
+      data: {
+        receptions: formattedReceptions
+      }
     });
   } catch (error) {
     console.log(error);

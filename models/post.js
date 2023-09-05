@@ -1,26 +1,11 @@
-// const Post = sequelize.define('mariNail_Post', {
-//   imageUrl: {
-//     type: DataTypes.STRING,
-//     allowNull: false
-//   },
-//   caption: {
-//     type: DataTypes.STRING,
-//     allowNull: false
-//   }
-// });
+const { DataTypes } = require("sequelize");
+const db = require("../Config/DBconfig");
 
 
-// module.exports = {
-//   postModel: Post
-// };
-
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../Config/DBconfig');
 
 
-class InstagramPost extends Model {}
-
-InstagramPost.init(
+const InstagramPost = db.define(
+  'mariNail_Posts',
   {
     caption: {
       type: DataTypes.STRING,
@@ -41,18 +26,20 @@ InstagramPost.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0
-    }
+    },
+    likes: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
   },
   {
-    sequelize,
-    timestamps: false,
-    modelName: 'mariNail_Post'
+    timestamps: false
   }
 );
 
-class InstagramPostImage extends Model {}
-
-InstagramPostImage.init(
+const InstagramPostImage = db.define(
+  'mariNail_PostImage',
   {
     url: {
       type: DataTypes.STRING,
@@ -64,14 +51,76 @@ InstagramPostImage.init(
     }
   },
   {
-    timestamps: false,
-    sequelize,
-    modelName: 'mariNail_PostImage',
+    timestamps: false
+  }
+)
+const LikePost = db.define(
+  'mariNail_LikesPosts',
+  {
+    customer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    post_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    is_active: {
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      default : 1
+    } 
+  },
+  {
+    timestamps: false
   }
 );
 
+const SavedPost = db.define(
+  'mariNail_SavedPosts',
+  {
+    customer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    post_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    is_active: {
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      default : 1
+    } 
+
+    
+  },
+  {
+    timestamps: false
+  }
+);
+
+InstagramPost.hasMany(LikePost, {
+  foreignKey: 'post_id',
+  as: 'isLiked' // Alias for the association with likes
+});
+
+LikePost.belongsTo(InstagramPost, {
+  foreignKey: 'post_id',
+  as: 'Post' // Alias for the association with posts
+});
+
+InstagramPost.hasMany(SavedPost, {
+  foreignKey: 'post_id',
+  as: 'isSaved' // Alias for the association with saves
+});
+
+SavedPost.belongsTo(InstagramPost, {
+  foreignKey: 'post_id',
+  as: 'Post' // Alias for the association with posts
+});
 InstagramPost.hasMany(InstagramPostImage, { foreignKey: 'post_id' });
 InstagramPostImage.belongsTo(InstagramPost , { as: 'PostImages'});
 
 
-module.exports = { InstagramPost, InstagramPostImage };
+module.exports = { InstagramPost, InstagramPostImage , SavedPost , LikePost };
