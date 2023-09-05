@@ -3,6 +3,7 @@ const { InstagramPost  , InstagramPostImage , LikePost, SavedPost,} = require('.
 
 const getPosts = async (req, res) => {
   try {
+    
     const { page, limit = 10 } = req.query; 
     const userCondition = req?.user ? { customer_id: req?.user?.customerId } : { customer_id: null };
     const offset = (page - 1) * limit;
