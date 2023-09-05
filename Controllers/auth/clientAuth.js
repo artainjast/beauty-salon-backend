@@ -8,10 +8,8 @@ const { Op } = require("sequelize");
 const {sendOTP , signUpByCustomerSms} = require('../../Config/MeliPayamkconfig')
 
 const iranPhoneNumberRegex = /^(\+98|0)?9\d{9}$/;
-
 const registerOrLogin = async (req, res) => {
   const { phoneNumber } = req.body;
-  
   try {
     if (!phoneNumber.match(iranPhoneNumberRegex)) return res.status(400).json({ message: "شماره معتبر وارد کنید" });
     if (!redisClient.status || redisClient.status === "end") {
@@ -40,7 +38,7 @@ const registerOrLogin = async (req, res) => {
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "مشکلی پیش آمده است" });
   }
 };
 
@@ -62,7 +60,7 @@ const verify =  async (req, res) => {
     
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "مشکلی پیش آمده است" });
   }  
   
 };
@@ -83,10 +81,9 @@ const verifyRegister = async  (req, res ) => {
     redisClient.get(toEn(phoneNumber), async (err, redisOtpCode) => {
       if (err) {
         console.log(err);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "مشکلی پیش آمده است" });
       } else {
         if (redisOtpCode === otpCode) {
-          console.log("Customer authenticated successfully!");
           let referringCustomer = null;
           if (referCode) {
             referringCustomer = await customerModel.findOne({
@@ -126,19 +123,18 @@ const verifyRegister = async  (req, res ) => {
         } 
         const token = tokenGenerator(newCustomer.id , process.env.CLIENT_AUTH_PRIVATE_KEY ,true , '48h');
         return res.status(201).json({
-                message: "Customer registered successfully",
+                message: "خوش آمدید",
                 accessToken: token,
         });
 
     } else {
-          console.log("Invalid OTP code");
-          res.status(400).json({ message: "Invalid OTP code" });
+          res.status(400).json({ message: "کد موقت معتبر نیست"});
         }
       }
     });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "مشکلی پیش آمده است" });
     }  
 };
 
@@ -149,23 +145,20 @@ const verifyLogin =  async  (req, res , customerId) => {
     redisClient.get(toEn(phoneNumber), (err, redisOtpCode) => {
     if (err) {
       console.log(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "مشکلی پیش آمده است" });
     }
     if (redisOtpCode === null) {
-      console.log("Invalid OTP code");
       res.status(400).json({ message: "لطفا دوباره وارد شوید." , isOtpExpired : true});
     } else {
       if (redisOtpCode === otpCode) {
-        console.log("Customer authenticated successfully!");
         // Proceed with customer login
-        const token = tokenGenerator(customerId , process.env.CLIENT_AUTH_PRIVATE_KEY , true , '48h');
+        const token = tokenGenerator(customerId , process.env.CLIENT_AUTH_PRIVATE_KEY , true , '31d');
         res.status(200).json({ 
           message: "با موفقیت وارد شدی." ,
           accessToken : token
         });
       } else {
-        console.log("Invalid OTP code");
-        res.status(400).json({ message: "Invalid OTP code" });
+        res.status(400).json({ message: "کد موقت معتبر نیست"});
       }
     }
   });
