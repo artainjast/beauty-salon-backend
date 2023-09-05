@@ -5,8 +5,8 @@ const { profilePosts } = require('./post');
 
 
 
-router.use('/reception',authenticateClientJWT , receptionClientRouter)
-router.use('/posts',authenticateClientJWT , profilePosts)
+router.use('/reception', authenticateClientJWT , receptionClientRouter)
+router.use('/posts', authenticateClientJWT , profilePosts)
 
 module.exports = {
     profileRouter : router

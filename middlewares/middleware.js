@@ -68,6 +68,8 @@ const decodeCustomerToken = (req, res, next) => {
 }
 const addCustomerIdToRequest = (req, res, next) => {
   try {
+    const authHeader = req.headers.authorization;
+    const [token] = authHeader.split(' ');
     const decoded = jwt.verify(token, process.env.CLIENT_AUTH_PRIVATE_KEY);
     req.user = { customerId: decoded.customerId };
     next();
