@@ -82,13 +82,14 @@ const getOnePost = async (req, res) => {
 const likePost = async (req, res) => {
   try {
     const  postId  = +req.params.postId;
-    const {customerId} = req.user; // Assuming you have user information in the request
+    const customerId = req?.user?.customerId || null; // Assuming you have user information in the request
     if (!customerId) {
       const post = await InstagramPost.findByPk(postId);
       if (post) {
         post.likes = post.likes + 1
       await post.save();
-      res.json({ message: 'Post liked/unliked successfully without login  ' });
+      res.json({ message: 'Post liked/unliked successfully without login'});
+      return;
      }
     }
     // Find the user's like for the post, if it exists

@@ -3,7 +3,7 @@ const { getPosts , getOnePost , likePost , savePost} = require('../../Controller
 const {decodeCustomerToken,  addCustomerIdToRequest} = require('../../middlewares/middleware') 
 router.get('/' , addCustomerIdToRequest, getPosts)
 router.get('/:id' , getOnePost)
-router.post('/:postId/like', decodeCustomerToken, likePost);
+router.post('/:postId/like', addCustomerIdToRequest, likePost);
 router.post('/:postId/save',decodeCustomerToken, savePost);
 
 module.exports = {
