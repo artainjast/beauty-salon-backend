@@ -125,8 +125,15 @@ const likePost = async (req, res) => {
 const savePost = async (req, res) => {
   try {
     const { postId } = req.params;
-    const {customerId} = req.user; // Assuming you have user information in the request
-
+    const customerId = req?.user?.customerId || null; // Assuming you have user information in the request
+    if (!customerId) {
+      res.status(401);      
+      res.send({
+        data: {
+          message: 'لطفا وارد شوید.'
+        }
+      })
+    }
     // Find the user's saved post, if it exists
     let userSavedPost = await SavedPost.findOne({
       where: { customer_id: customerId, post_id: postId },
