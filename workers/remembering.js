@@ -3,6 +3,8 @@ const { customerModel, receptionModel, receptionServiceModel, subServiceModel } 
 const {noticeCustomer} = require('../Config/MeliPayamkconfig');
 const { sendSMS } = require("../Config/MeliPayamkconfig");
 
+//باید ی شرط اضافه کنیم به گت کاستومرمون که ایا این چیزی که پیدا کرده اخرین پذیرش مشتری هست یا ن  اگر اخرین بود بیاد برامون بفرسته پیامو
+
 
 const calculateTime = (day) => {
   return Math.floor(Date.now() / 1000) - Number(day) * 24 * 60 * 60;

@@ -102,7 +102,7 @@ const customerSignupByAdmin = (phoneNumber , customerName , referCode) => {
 
 const noticeCustomer = (phoneNumber , customerName , serviceName ) => {
   const bodyId = 155837;
-  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&text=ترمیم&text=${serviceName}&to=${phoneNumber}&bodyId=${bodyId}`;
+  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&text=&text=${serviceName}&to=${phoneNumber}&bodyId=${bodyId}`;
   axios.get(url)
   .then(() => {
     return true;
