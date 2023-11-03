@@ -6,6 +6,8 @@ const { paymentTypeModel } = require('./paymentType');
 const { receptionPaymentModel } = require('./receptionPayment');
 const { discountModel } = require('./discount');
 const { customerDiscountsModel } = require('./customerDiscount');
+const { reservationCalenderModel } = require('./reservationCalender');
+const { reservationSpaceModel } = require('./reservationSpace');
 
 customerModel.hasMany(receptionModel ,  { foreignKey: 'CUSTOMER_ID' });
 receptionModel.belongsTo(customerModel, { foreignKey: 'CUSTOMER_ID' });
@@ -46,6 +48,13 @@ customerDiscountsModel.belongsTo(receptionModel, {
   foreignKey: 'receptionId',
 });
 
+reservationCalenderModel.hasMany(reservationSpaceModel, {
+  foreignKey : 'reservation_calender_id'
+});
+reservationSpaceModel.belongsTo(reservationCalenderModel, {
+  foreignKey : 'reservation_calender_id'
+});
+
 module.exports = {
   customerModel,
   receptionModel,
@@ -54,5 +63,7 @@ module.exports = {
   paymentTypeModel,
   receptionPaymentModel,
   discountModel,
-  customerDiscountsModel
+  customerDiscountsModel,
+  reservationCalenderModel,
+  reservationSpaceModel
 };

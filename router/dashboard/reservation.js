@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { addCapacity } = require('../../Controllers/Dashboard/reservationHandler');
+const { createDynamicRoutineReservations , createMyself } = require('../../Controllers/Dashboard/reservationHandler');
 
-router.post('/' , addCapacity);
+router.post('/' , createMyself);
 
 module.exports = {
     capacityDashboardRouter : router

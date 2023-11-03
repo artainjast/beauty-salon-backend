@@ -11,10 +11,19 @@ try {
       db = new Sequelize(`${process.env.DB_HOST_LOCAL}` ,{
          // logging: false
       }); 
+      db.sequelize.sync().then(() => {
+         console.log('Database synced successfully.');
+       }).catch((error) => {
+         console.error('Error syncing database:', error);
+       });
+      db.sequelize.options.logging = (query) => {
+         console.log(query);
+       };
    }
 } catch (error) {
    console.log(error);
 }
+
 
 
  try {

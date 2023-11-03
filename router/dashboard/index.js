@@ -18,7 +18,7 @@ router.use("/main-service", mainServiceDashboardRouter);
 router.use("/sub-service", subServiceDashboardRouter);
 router.use('/posts' , postDashboardRouter);
 router.use('/reception', receptionDashboardRouter);
-router.use('/capacity' , capacityDashboardRouter);
+router.use('/reservation' , capacityDashboardRouter);
 router.use('/payment-type' , paymentTypeRouter);
 router.use('/discount' , discountRouter);
 router.use('/customer-discount' , customerDiscountRouter);
