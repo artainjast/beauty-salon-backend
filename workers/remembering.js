@@ -12,7 +12,7 @@ const calculateTime = (day) => {
  
 const getCustomerNoticeData = async (time , services) => {
   try {
-    const customersData = await customerModel.findAll({
+    const tempCustomerData = await customerModel.findAll({
       include: [
         {
           model: receptionModel,
@@ -25,7 +25,7 @@ const getCustomerNoticeData = async (time , services) => {
           include: [
             {
               model: receptionServiceModel,
-              include: [
+              include: [  
                 {
                   model: subServiceModel,
                   where: {
@@ -38,7 +38,23 @@ const getCustomerNoticeData = async (time , services) => {
         }
       ]
     });
-    return customersData;
+    const filteredData = await Promise.all(tempCustomerData.map(async (item) => {
+    const customerReceptions = await receptionModel.findAll({
+      where: {
+        CUSTOMER_ID: {
+          [Op.eq]: item.id,
+        },
+      },
+    });
+
+    if (customerReceptions[customerReceptions.length - 1].id === item.mariNail_Receptions[0].id) {
+      return item;
+    }
+    return null; // or undefined
+  }));
+
+  return filteredData.filter(Boolean);
+
   } catch (error) {
     console.error('Error occurred:', error);
   }
@@ -46,9 +62,9 @@ const getCustomerNoticeData = async (time , services) => {
 
 const rememberNotice = async(time , services , serviceName) => {
   try {
-    const customersData = await getCustomerNoticeData(time , services)
+    const customersData = await getCustomerNoticeData(time, services)
     //send sms to users
-    customersData.map((customer) => {
+    customersData?.map((customer) => {
       noticeCustomer(customer.PHONE_NUMBER , customer.FIRST_NAME , serviceName )
     })
   } catch (error) {
