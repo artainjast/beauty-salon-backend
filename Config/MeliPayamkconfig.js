@@ -1,9 +1,10 @@
 const { default: axios } = require("axios");
 const { toEn } = require("../utils");
 const https = require('https');
+const { isFeatureActive } = require("../utils/appFeatures");
+const { appFeatures } = require("../constants/appFeatures");
 
-const username = '9191402617';
-const password = 'ML%236S';
+const isRememberingSmsActive = isFeatureActive(appFeatures.SENDING_REMEMBER_SMS)
 
 const sendSMS  = (phoneNumber , text) => {
   const data = {
@@ -88,7 +89,7 @@ const signUpByCustomerSms = (phoneNumber , customerName , referCode) => {
 const customerSignupByAdmin = (phoneNumber , customerName , referCode) => {
 
   const bodyId = 140017;
-  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&text=${referCode}&to=${phoneNumber}&bodyId=${bodyId}`;
+  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${process.env.MELI_PAYAMAK_USERNAME}&password=${process.env.MELI_PAYAMAK_PASSWORD}&text=${customerName}&text=${referCode}&to=${phoneNumber}&bodyId=${bodyId}`;
   axios.get(url)
   .then(() => {
     return true;
@@ -102,8 +103,8 @@ const customerSignupByAdmin = (phoneNumber , customerName , referCode) => {
 
 const noticeCustomer = (phoneNumber , customerName , serviceName ) => {
   const bodyId = 155837;
-  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&text=&text=${serviceName}&to=${phoneNumber}&bodyId=${bodyId}`;
-  axios.get(url)
+  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${process.env.MELI_PAYAMAK_USERNAME}&password=${process.env.MELI_PAYAMAK_PASSWORD}&text=${customerName}&text=&text=${serviceName}&to=${phoneNumber}&bodyId=${bodyId}`;
+  isRememberingSmsActive && axios.get(url)
   .then(() => {
     return true;
   })
@@ -116,7 +117,7 @@ const noticeCustomer = (phoneNumber , customerName , serviceName ) => {
 
 const afterReceptionSMS = (phoneNumber , customerName ) => {
   const bodyId = 141221;
-  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${username}&password=${password}&text=${customerName}&to=${phoneNumber}&bodyId=${bodyId}`;
+  const url = `https://api.payamak-panel.com/post/send.asmx/SendByBaseNumber?username=${process.env.MELI_PAYAMAK_USERNAME}&password=${process.env.MELI_PAYAMAK_PASSWORD}&text=${customerName}&to=${phoneNumber}&bodyId=${bodyId}`;
   axios.get(url)
   .then(() => {
     return true;
